@@ -18,6 +18,13 @@ class JQAssistantPlugin implements Plugin<Project> {
     static final String DIRNAME = "jqassistant"
     static final Logger logger = Logging.getLogger(JQAssistantPlugin.class)
 
+    protected Project project = null
+    protected Store store = null
+
+
+    static JQAssistantPlugin fromProject(Project project) {
+        return project.plugins.getPlugin("de.ploing.jqassistant")
+    }
 
     protected Store createStore(File directory, List<Class<?>> types) {
         logger.debug("Creating JQAssistant store in ${directory}")
@@ -27,7 +34,7 @@ class JQAssistantPlugin implements Plugin<Project> {
         return store
     }
 
-    protected Store initStore(Project target) {
+    protected Store initStore() {
         // Set up jqassistant plugin
         PluginConfigurationReader confReader = new PluginConfigurationReaderImpl()
         PluginRepository repo = new PluginRepositoryImpl(confReader)
@@ -41,17 +48,24 @@ class JQAssistantPlugin implements Plugin<Project> {
         }
 
         // Determine store directory
-        File directory = new File(target.getBuildDir(), DIRNAME)
+        File directory = new File(project.getBuildDir(), DIRNAME)
 
         return createStore(directory, descriptorTypes)
     }
 
+    synchronized Store getStore() {
+        if (store==null) {
+            store = initStore()
+        }
+        return store
+    }
+
     @Override
     void apply(Project target) {
+        project = target
         // Create extension
         target.extensions.create(JQAssistantExtension.NAME, JQAssistantExtension)
         JQAssistantExtension ext = target.extensions.getByName(JQAssistantExtension.NAME)
-        ext.store = initStore(target)
         // Register tasks
         target.task("jQAssistantReset")
     }

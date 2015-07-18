@@ -16,12 +16,13 @@ class SetupTest {
     @Before
     void setupProject() {
         project = ProjectBuilder.builder().build()
-        project.logging.standardOutputCaptureLevel = LogLevel.INFO
+        project.logging.level = LogLevel.DEBUG
         project.pluginManager.apply 'de.ploing.jqassistant'
     }
 
     @Test
     void extensionIsRegistered() {
+        assertNotNull(JQAssistantPlugin.fromProject(project))
         assertTrue(project.extensions.getByName(JQAssistantExtension.NAME) instanceof JQAssistantExtension)
         JQAssistantExtension ext = project.extensions.getByName(JQAssistantExtension.NAME)
         assertNotNull(ext)
@@ -29,7 +30,6 @@ class SetupTest {
 
     @Test
     void dbIsSetUp() {
-        JQAssistantExtension ext = project.extensions.getByName(JQAssistantExtension.NAME)
-        assertNotNull(ext.store)
+        assertNotNull(JQAssistantPlugin.fromProject(project).store)
     }
 }
