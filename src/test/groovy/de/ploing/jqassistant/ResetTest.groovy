@@ -1,5 +1,6 @@
 package de.ploing.jqassistant
 
+import com.buschmais.jqassistant.core.store.api.Store
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Before
@@ -24,7 +25,7 @@ class ResetTest {
 
     @Test
     void resetTaskClearsDatabase() {
-        JQAssistantExtension ext = project.extensions.getByName(JQAssistantExtension.NAME)
-
+        Store store = JQAssistantPlugin.fromProject(project).store
+        project.tasks.findByPath("jQAssistantReset").execute()
     }
 }
