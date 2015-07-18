@@ -8,6 +8,6 @@ import org.gradle.api.tasks.TaskAction
 class GradleTasks extends DefaultTask {
     @TaskAction
     void jQAssistantReset() {
-        JQAssistantPlugin.fromProject(project).store.reset()
+        GradleTaskImpl.jQAssistantReset(project)
     }
 }
