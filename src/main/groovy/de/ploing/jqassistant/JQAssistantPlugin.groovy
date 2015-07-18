@@ -20,10 +20,17 @@ class JQAssistantPlugin implements Plugin<Project> {
 
     protected Project project = null
     protected Store store = null
+    protected PluginRepository pluginRepositoryProvider = null
 
 
     static JQAssistantPlugin fromProject(Project project) {
         return project.plugins.getPlugin("de.ploing.jqassistant")
+    }
+
+
+    protected void initializePluginRepositoryProvider() {
+        PluginConfigurationReader confReader = new PluginConfigurationReaderImpl()
+        pluginRepositoryProvider = new PluginRepositoryImpl(confReader)
     }
 
     protected Store createStore(File directory, List<Class<?>> types) {
@@ -35,14 +42,10 @@ class JQAssistantPlugin implements Plugin<Project> {
     }
 
     protected Store initStore() {
-        // Set up jqassistant plugin
-        PluginConfigurationReader confReader = new PluginConfigurationReaderImpl()
-        PluginRepository repo = new PluginRepositoryImpl(confReader)
-
         // Determine descriptor types
         List<Class<?>> descriptorTypes
         try {
-            descriptorTypes = repo.getModelPluginRepository().getDescriptorTypes()
+            descriptorTypes = pluginRepositoryProvider.getModelPluginRepository().getDescriptorTypes()
         } catch (PluginRepositoryException e) {
             throw new PluginInstantiationException("Cannot determine model types.", e)
         }
@@ -60,13 +63,20 @@ class JQAssistantPlugin implements Plugin<Project> {
         return store
     }
 
+    PluginRepository getPluginRepositoryProvider() {
+        return pluginRepositoryProvider
+    }
+
+
     @Override
     void apply(Project target) {
         project = target
+        initializePluginRepositoryProvider()
         // Create extension
         target.extensions.create(JQAssistantExtension.NAME, JQAssistantExtension)
         JQAssistantExtension ext = target.extensions.getByName(JQAssistantExtension.NAME)
         // Register tasks
         target.task("jQAssistantReset")
+        target.task("jQAssistantScan")
     }
 }

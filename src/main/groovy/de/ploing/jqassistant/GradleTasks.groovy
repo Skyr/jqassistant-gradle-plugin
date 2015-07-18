@@ -10,4 +10,9 @@ class GradleTasks extends DefaultTask {
     void jQAssistantReset() {
         GradleTaskImpl.jQAssistantReset(project)
     }
+
+    @TaskAction
+    void jQAssistantScan() {
+        GradleTaskImpl.jQassistantScan(project)
+    }
 }
