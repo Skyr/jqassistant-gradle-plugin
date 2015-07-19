@@ -1,4 +1,4 @@
-apply plugin: 'java-gradle-plugin'
+//apply plugin: 'java-gradle-plugin'
 apply plugin: 'groovy'
 
 def jqassistantVersion = "1.0.0"
@@ -7,8 +7,15 @@ repositories {
   mavenCentral()
 }
 
+configurations {
+    runtime.exclude module: "servlet-api"
+}
+
 dependencies {
-    // compile gradleApi()
+    compile gradleApi()
+    /*{
+        exclude module: 'javax.servlet-api'
+    }*/
     compile localGroovy()
     compile "com.buschmais.jqassistant.plugin:jqassistant.plugin.all:${jqassistantVersion}"
     compile "com.buschmais.jqassistant.core:jqassistant.core.scanner:${jqassistantVersion}"

@@ -78,5 +78,6 @@ class JQAssistantPlugin implements Plugin<Project> {
         // Register tasks
         target.task("jQAssistantReset")
         target.task("jQAssistantScan")
+        target.task("jQAssistantServer")
     }
 }
