@@ -60,14 +60,21 @@ class ScanTask {
     }
 
 
-    void jQAssistantScan() {
+    void jQAssistantScan(Closure scannerCalls) {
         ScopePluginRepository scopePluginRepository = pluginRepositoryProvider.getScopePluginRepository();
         Scanner scanner = new ScannerImpl(store, getScannerPlugins(), scopePluginRepository.getScopes());
         store.beginTransaction();
         try {
-            // scanner.scan(mavenProject, mavenProject.getFile().getAbsolutePath(), MavenScope.PROJECT);
+            scannerCalls(scanner)
         } finally {
             store.commitTransaction();
+        }
+    }
+
+
+    void jQAssistantScan() {
+        jQAssistantScan { scanner ->
+            // scanner.scan(mavenProject, mavenProject.getFile().getAbsolutePath(), MavenScope.PROJECT);
         }
     }
 }
