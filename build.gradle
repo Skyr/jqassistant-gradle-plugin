@@ -10,6 +10,7 @@ repositories {
 dependencies {
     // compile gradleApi()
     compile localGroovy()
+    compile "com.buschmais.jqassistant.plugin:jqassistant.plugin.all:${jqassistantVersion}"
     compile "com.buschmais.jqassistant.core:jqassistant.core.scanner:${jqassistantVersion}"
     compile "com.buschmais.jqassistant.core:jqassistant.core.analysis:${jqassistantVersion}"
     compile "com.buschmais.jqassistant.scm:jqassistant.scm.neo4jserver:${jqassistantVersion}"
