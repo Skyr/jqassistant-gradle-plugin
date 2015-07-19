@@ -26,6 +26,6 @@ class ResetTest {
     @Test
     void resetTaskClearsDatabase() {
         Store store = JQAssistantPlugin.fromProject(project).store
-        GradleTaskImpl.jQAssistantReset(project)
+        GradleTasks.jQAssistantReset(project)
     }
 }

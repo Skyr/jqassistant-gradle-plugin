@@ -6,13 +6,25 @@ import org.gradle.api.tasks.TaskAction
 
 
 class GradleTasks extends DefaultTask {
+    static void jQAssistantReset(Project project) {
+        JQAssistantPlugin.fromProject(project).store.reset()
+    }
+
+
     @TaskAction
     void jQAssistantReset() {
-        GradleTaskImpl.jQAssistantReset(project)
+        jQAssistantReset(project)
     }
+
+
+    static void jQAssistantScan(Project project) {
+        ScanTask task = new ScanTask(project)
+        task.jQAssistantScan()
+    }
+
 
     @TaskAction
     void jQAssistantScan() {
-        GradleTaskImpl.jQassistantScan(project)
+        jQAssistantScan(project)
     }
 }

@@ -5,7 +5,7 @@ import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Before
 import org.junit.Test
 
-import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.*
 
 
 class ScanTest {
@@ -20,5 +20,16 @@ class ScanTest {
     @Test
     void scanTaskIsPresent() {
         assertNotNull(project.tasks.findByPath("jQAssistantScan"))
+    }
+
+    @Test
+    void scannerPluginsFound() {
+        ScanTask task = new ScanTask(project)
+        assertNotEquals(0, task.scannerPlugins.size())
+    }
+
+    @Test
+    void runScanTask() {
+        // GradleTasks.jQAssistantScan(project)
     }
 }
