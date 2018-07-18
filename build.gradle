@@ -1,7 +1,7 @@
 //apply plugin: 'java-gradle-plugin'
 apply plugin: 'groovy'
 
-def jqassistantVersion = "1.0.0"
+def jqassistantVersion = "1.4.0"
 
 repositories {
   mavenCentral()
@@ -17,8 +17,8 @@ dependencies {
         exclude module: 'javax.servlet-api'
     }*/
     compile localGroovy()
-    compile "com.buschmais.jqassistant.plugin:jqassistant.plugin.all:${jqassistantVersion}"
-    compile "com.buschmais.jqassistant.core:jqassistant.core.scanner:${jqassistantVersion}"
-    compile "com.buschmais.jqassistant.core:jqassistant.core.analysis:${jqassistantVersion}"
-    compile "com.buschmais.jqassistant.scm:jqassistant.scm.neo4jserver:${jqassistantVersion}"
+    // compile "com.buschmais.jqassistant.core:scanner:${jqassistantVersion}"
+    compile "com.buschmais.jqassistant.core:plugin:${jqassistantVersion}"
+    // compile "com.buschmais.jqassistant.cli:jqassistant-commandline-neo4jv3:${jqassistantVersion}"
+    compile "com.buschmais.jqassistant.neo4jserver:neo4jv3:${jqassistantVersion}"
 }

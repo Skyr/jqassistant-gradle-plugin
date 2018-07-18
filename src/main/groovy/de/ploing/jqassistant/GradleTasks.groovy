@@ -1,11 +1,8 @@
 package de.ploing.jqassistant
 
-import com.buschmais.jqassistant.core.plugin.api.PluginRepository
 import com.buschmais.jqassistant.core.store.api.Store
 import com.buschmais.jqassistant.core.store.impl.EmbeddedGraphStore
-import com.buschmais.jqassistant.scm.neo4jserver.api.Server
-import com.buschmais.jqassistant.scm.neo4jserver.impl.DefaultServerImpl
-import org.apache.maven.plugin.MojoExecutionException
+import com.buschmais.jqassistant.neo4j.backend.bootstrap.EmbeddedNeo4jServer
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
@@ -38,12 +35,10 @@ class GradleTasks extends DefaultTask {
 
     static void jQAssistantServer(Project project) {
         Store store = JQAssistantPlugin.fromProject(project).store
-        PluginRepository pluginRepositoryProvider = JQAssistantPlugin.fromProject(project).pluginRepositoryProvider
 
-        Server server = new DefaultServerImpl((EmbeddedGraphStore) store,
-                pluginRepositoryProvider.getScannerPluginRepository(),
-                pluginRepositoryProvider.getRulePluginRepository())
-        server.start()
+        EmbeddedGraphStore embeddedGraphStore = (EmbeddedGraphStore) store
+        EmbeddedNeo4jServer server = embeddedGraphStore.getServer()
+        server.start("localhost", 7474)
         println("Running server for project ${project.name} running at ${server.baseUri()}")
         println("Press <Enter> to finish.")
         try {
